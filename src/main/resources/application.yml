@@ -11,8 +11,6 @@ spring:
       enabled: true
       max-file-size: 50MB
       max-request-size: 50MB
-  jwt:
-    secret: project_management_system
 
 server:
   servlet:
@@ -24,7 +22,7 @@ server:
     session:
       timeout: 600m
       cookie:
-        name: CSESSIONID
+        name: JSESSIONID
         secure: true
         http-only: true
         max-age: 600m
@@ -48,3 +46,9 @@ logging:
             http:
               SessionRepositoryFilter:
                 SESSION_LOGGER: INFO
+
+jasypt:
+  encryptor:
+    algorithm: PBEWITHHMACSHA512ANDAES_256
+    key-obtention-iterations: 10000
+    pool-size: 1

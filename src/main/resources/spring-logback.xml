@@ -31,7 +31,7 @@
 <!--		</rollingPolicy>-->
 <!--	</appender>-->
 
-	<springProfile name="local">
+	<springProfile name="local,dev">
 		<root level="DEBUG">
 			<appender-ref ref="CONSOLE" />
 		</root>

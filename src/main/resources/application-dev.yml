@@ -1,0 +1,28 @@
+spring:
+  datasource:
+    url: ENC(csvJoOMjq4WqAqc6ISDUy6p7naW8kbuU2kHlYD3HP20cv1JkeJgVaZd0fTW33l2Hth0VJyjTq0a6hNJIdgk27kkq93xE2h072eu7uqWnwixKDjveCKw8Lks/yhah+vAi/wELAZwA4gdZ+c22QPihX2qmm6nZnyMczsC6FnB7OvLIHYGKiwQ6R6bFBYRcUvM2RsT00z/i3l9LSx6Guw5ccZni/ATFJE3SfzhHSpxLug9jyLu1Dg9UbCT+0ptsxc9+heCRrjVmAI1kBSGP1vaXuQ==)
+    username: ENC(ciwJ6wRZa5nZ6x9clq1GHVZ85IXtQT70kqA/ogJAFpjD9wfCrihVcU0TLb+Qm/2o5BbCf1KwL6jnnHESHP4TfA==)
+    password: ENC(cWDuSex0UD1ktl+ulJe59YklN4deHGzxVyVq3m9Y9EQNHXFGfMPk7fCEA5cpQMS/)
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    open-in-view: false
+    generate-ddl: false
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          batch_size: 100
+          order_inserts: true
+          order_updates: true
+  data:
+    redis:
+      url: localhost
+      port: 6379
+
+logging:
+  level:
+    org:
+      springframework: debug
