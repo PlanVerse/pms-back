@@ -1,0 +1,50 @@
+spring:
+  application:
+    name: pms-back
+  profiles:
+    active: local
+  output:
+    ansi:
+      enabled: always
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 50MB
+      max-request-size: 50MB
+  jwt:
+    secret: project_management_system
+
+server:
+  servlet:
+    context-path: /api/v1/
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+    session:
+      timeout: 600m
+      cookie:
+        name: CSESSIONID
+        secure: true
+        http-only: true
+        max-age: 600m
+  shutdown: graceful
+  port: 50030
+  error:
+    whitelabel:
+      enabled: false
+  compression:
+    enabled: true
+  http2:
+    enabled: true
+
+logging:
+  config: classpath:spring-logback.xml
+  level:
+    org:
+      springframework:
+        session:
+          web:
+            http:
+              SessionRepositoryFilter:
+                SESSION_LOGGER: INFO
