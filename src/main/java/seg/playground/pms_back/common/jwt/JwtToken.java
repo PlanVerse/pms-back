@@ -1,0 +1,21 @@
+package seg.playground.pms_back.common.jwt;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+
+/**
+ * @author  : seoeungi
+ * @since   : 2024.11.01
+ */
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+public class JwtToken {
+
+    private String grantType;
+    private String accessToken;
+    private String refreshToken;
+}

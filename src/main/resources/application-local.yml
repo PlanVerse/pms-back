@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:log4jdbc:postgresql://localhost:5432/pms
+    url: jdbc:log4jdbc:postgresql://localhost:5432/postgres?serverTimezone=Asia/Seoul
     username: seg00
     password: seg00
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
