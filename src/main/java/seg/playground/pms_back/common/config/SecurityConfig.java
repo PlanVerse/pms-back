@@ -17,10 +17,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import seg.playground.pms_back.common.config.support.JwtAuthenticationFilter;
 import seg.playground.pms_back.common.config.support.JwtTokenProvider;
 
-/**
- * @author  : seoeungi
- * @since   : 2024.11.01
- */
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor

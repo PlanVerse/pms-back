@@ -3,6 +3,7 @@ spring:
     name: pms-back
   profiles:
     active: local
+    default:
   output:
     ansi:
       enabled: always

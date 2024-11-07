@@ -12,10 +12,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
 
-/**
- * @author  : seoeungi
- * @since   : 2024.11.01
- */
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends GenericFilterBean {
 

@@ -2,11 +2,9 @@ package seg.playground.pms_back;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-/**
- * @author  : seoeungi
- * @since   : 2024.11.01
- */
+@EnableJpaAuditing
 @SpringBootApplication
 public class PmsBackApplication {
 

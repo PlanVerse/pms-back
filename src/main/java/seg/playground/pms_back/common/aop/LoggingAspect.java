@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 import seg.playground.pms_back.common.util.RestUtil;
 
 @Slf4j
+@Order
 @Aspect
-@Order(1)
 @Component
 public class LoggingAspect {
 
@@ -26,15 +26,15 @@ public class LoggingAspect {
         String methodNm = pjp.getSignature().getName();
 
         if (classNm.contains("Controller")) {
-            type = " Controller - ";
+            type = "Controller";
         } else if (classNm.contains("Service")) {
-            type = " Service - ";
+            type = "Service";
         } else if (classNm.contains("Repository")) {
-            type = " Repository - ";
+            type = "Repository";
         } else if (classNm.contains("Mapper")) {
-            type = " Mapper - ";
+            type = "Mapper";
         } else {
-            type = "Etc - ";
+            type = "Etc";
         }
 
         Object result = pjp.proceed();
@@ -45,7 +45,7 @@ public class LoggingAspect {
         } else {
             res = result;
         }
-        log.info("{}[RES] : '{}.{}()', Params={}", type, classNm, methodNm, RestUtil.getJsonStrPretty(res));
+        log.info(" {} - [RES] : '{}.{}()', Params={}", type, classNm, methodNm, RestUtil.getJsonToPrettyString(res));
 
         return result;
     }
