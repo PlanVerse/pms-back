@@ -28,14 +28,14 @@ import org.springframework.transaction.PlatformTransactionManager;
 @Configuration
 @MapperScan(
         basePackages = {
-                "seg.playground.pms_back.*.mapper"
-                , "seg.playground.pms_back.*.*.mapper"
+                "seg.playground.pms_back.*.mapper",
+                "seg.playground.pms_back.*.*.mapper"
         },
         sqlSessionTemplateRef = "sqlSessionTemplate")
 @EnableJpaRepositories(
         basePackages = {
-                "seg.playground.pms_back.*.repository"
-                , "seg.playground.pms_back.*.*.repository"
+                "seg.playground.pms_back.*.repository",
+                "seg.playground.pms_back.*.*.repository"
         }
 )
 @RequiredArgsConstructor
@@ -65,8 +65,9 @@ public class DataConfig {
         LocalContainerEntityManagerFactoryBean lcemfb = new LocalContainerEntityManagerFactoryBean();
         lcemfb.setDataSource(dataSource);
         lcemfb.setPackagesToScan(
-                "seg.playground.pms_back.*.domain"
-                ,"seg.playground.pms_back.*.*.domain");
+                "seg.playground.pms_back.*.domain",
+                "seg.playground.pms_back.*.*.domain"
+        );
         lcemfb.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         Map<String, Object> properties = hibernateProperties.determineHibernateProperties(jpaProperties.getProperties(), new HibernateSettings());
         lcemfb.setJpaPropertyMap(properties);

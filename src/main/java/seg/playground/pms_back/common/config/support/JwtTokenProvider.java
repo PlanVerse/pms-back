@@ -14,6 +14,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,12 +22,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import seg.playground.pms_back.common.exception.BaseException;
 import seg.playground.pms_back.common.jwt.JwtToken;
 
-/**
- * @author  : seoeungi
- * @since   : 2024.11.01
- */
 @Slf4j
 @Component
 public class JwtTokenProvider {
@@ -73,7 +71,7 @@ public class JwtTokenProvider {
         Claims claims = parseClaims(accessToken);
 
         if (claims.get("auth") == null) {
-            throw new RuntimeException("권한 정보가 없는 토큰입니다.");
+            throw new BaseException(HttpStatus.TEMPORARY_REDIRECT, "권한 정보가 없습니다.");
         }
 
         // 클레임에서 권한 정보 가져오기

@@ -14,12 +14,14 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+import seg.playground.pms_back.common.exception.BaseException;
 
 @Slf4j
 @Component
@@ -90,11 +92,11 @@ public class RestUtil {
 
     public static <T> void responseCheck(ResponseEntity<T> response, int checkCode) throws Exception {
         if (response == null) {
-            throw new Exception("response is empty");
+            throw new BaseException(HttpStatus.BAD_REQUEST, "응답없음");
         }
 
         if (response.getStatusCode().value() != checkCode) {
-            throw new Exception("httpStatusCd : [" + response.getStatusCode().value() + "]");
+            throw new BaseException(HttpStatus.EXPECTATION_FAILED, "응답코드 : " + response.getStatusCode().value() + " - 기대 : " + checkCode);
         }
     }
 
@@ -106,7 +108,7 @@ public class RestUtil {
         return headers;
     }
 
-    public static String getJsonStrPretty(Object object) {
+    public static String getJsonToPrettyString(Object object) {
         if (object == null) {
             return null;
         } else {
@@ -126,7 +128,7 @@ public class RestUtil {
         }
     }
 
-    public static String getJsonStr(Object object) {
+    public static String getJsonToString(Object object) {
         String jsonString = null;
 
         try {
@@ -138,21 +140,21 @@ public class RestUtil {
         return jsonString;
     }
 
-    public static <T> T getStrToObj(String str, Class<T> clazz) throws JsonProcessingException {
+    public static <T> T getStringToObject(String str, Class<T> clazz) throws JsonProcessingException {
         if (str == null) {
             return null;
         }
         return objectMapper.readValue(str, clazz);
     }
 
-    public static <T> T getStrToObj(String str, TypeReference<T> typeRef) throws IOException {
+    public static <T> T getStringToObject(String str, TypeReference<T> typeRef) throws IOException {
         if (str == null) {
             return null;
         }
         return objectMapper.readValue(str, typeRef);
     }
 
-    public static Map<String, String> getObjToMap(Object param) {
+    public static Map<String, String> getObjectToMap(Object param) {
         return objectMapper.convertValue(param, new TypeReference<>() {
         });
     }

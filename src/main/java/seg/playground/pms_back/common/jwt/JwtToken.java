@@ -5,10 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * @author  : seoeungi
- * @since   : 2024.11.01
- */
 @Getter
 @Setter
 @Builder
