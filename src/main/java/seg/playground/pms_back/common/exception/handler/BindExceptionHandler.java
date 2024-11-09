@@ -1,7 +1,6 @@
 package seg.playground.pms_back.common.exception.handler;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,15 +25,14 @@ public class BindExceptionHandler {
     public ResponseEntity<Object> handleBindException(BindException e) {
         List<BindResponse.ErrorField> errorFields = new ArrayList<>();
 
-        Map<String, List<FieldError>> errorGroup = e.getFieldErrors().stream().collect(Collectors.groupingBy(FieldError::getField));
-        for (Map.Entry<String, List<FieldError>> entry : errorGroup.entrySet()) {
+        for (Map.Entry<String, List<FieldError>> entry : e.getFieldErrors().stream().collect(Collectors.groupingBy(FieldError::getField)).entrySet()) {
             errorFields.add(new BindResponse.ErrorField(entry.getKey(), entry.getValue().get(0).getRejectedValue(), entry.getValue().stream().map(FieldError::getDefaultMessage).toList()));
         }
         log.debug("errorFields \n{}\n", RestUtil.getJsonToString(errorFields));
 
         return ResponseEntity
                 .badRequest()
-                .body(new BindResponse(HttpStatus.BAD_REQUEST.value(), errorFields));
+                .body(new BindResponse(HttpStatus.BAD_REQUEST.value(), "BE", errorFields));
     }
 
     @Getter
@@ -43,7 +41,8 @@ public class BindExceptionHandler {
     public static class BindResponse {
 
         private Integer code;
-        private List<ErrorField> errors;
+        private String type;
+        private List<ErrorField> error;
 
         @Getter
         @ToString
