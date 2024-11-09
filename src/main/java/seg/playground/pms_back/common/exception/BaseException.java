@@ -1,16 +1,15 @@
 package seg.playground.pms_back.common.exception;
 
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
+import seg.playground.pms_back.common.exception.code.StatusCode;
 
 @Getter
 public class BaseException extends RuntimeException {
 
-    private final Integer code;
-    private final String type = "RE";
+    private final StatusCode status;
 
-    public BaseException(HttpStatus status, String message) {
-        super(message);
-        this.code = status.value();
+    public BaseException(StatusCode status) {
+        super(status.getMessage());
+        this.status = status;
     }
 }

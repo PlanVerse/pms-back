@@ -1,19 +1,34 @@
 package seg.playground.pms_back.common.exception.code;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
+import lombok.Setter;
 
 @Getter
+@Setter
 @AllArgsConstructor
-public class BaseResponse {
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+public class BaseResponse<T> {
 
-    private Integer code;
-    private String type;
-    private String error;
+    private final Boolean success;
+    private final String code;
+    private final String message;
+    private final T data;
 
-    public BaseResponse(HttpStatus httpStatus, String type, String error) {
-        this.code = httpStatus.value();
-        this.error = error;
+    public static <T> BaseResponse<T> success() {
+        return new BaseResponse<>(true, StatusCode.SUCCESS.getCode(), StatusCode.SUCCESS.getMessage(), null);
+    }
+
+    public static <T> BaseResponse<T> success(T data) {
+        return new BaseResponse<>(true, StatusCode.SUCCESS.getCode(), StatusCode.SUCCESS.getMessage(), data);
+    }
+
+    public static <T> BaseResponse<T> error(StatusCode status) {
+        return new BaseResponse<>(false, status.getCode(), status.getMessage(), null);
+    }
+
+    public static <T> BaseResponse<T> error(StatusCode status, T data) {
+        return new BaseResponse<>(false, status.getCode(), status.getMessage(), data);
     }
 }

@@ -1,17 +1,17 @@
 package seg.playground.pms_back.user.auth.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import seg.playground.pms_back.common.jwt.JwtToken;
+import seg.playground.pms_back.common.exception.code.BaseResponse;
+import seg.playground.pms_back.common.jwt.Jwt;
+import seg.playground.pms_back.common.jwt.JwtRefreshToken;
 import seg.playground.pms_back.user.auth.domain.SignInDTO;
 import seg.playground.pms_back.user.auth.domain.SignUpDTO;
 import seg.playground.pms_back.user.auth.service.SignService;
-import seg.playground.pms_back.user.domain.UserDTO;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,14 +21,20 @@ public class SignController {
     private final SignService signService;
 
     @PostMapping("/sign-up")
-    public ResponseEntity<Object> signUp(@Validated @RequestBody SignUpDTO signUpDto) {
-        UserDTO savedMemberDto = signService.signUp(signUpDto);
-        return ResponseEntity.ok(savedMemberDto);
+    public BaseResponse<Object> signUp(@Validated @RequestBody SignUpDTO signUpDto) {
+        signService.signUp(signUpDto);
+        return BaseResponse.success();
     }
 
     @PostMapping("/sign-in")
-    public ResponseEntity<Object> signIn(@Validated @RequestBody SignInDTO signInDTO) {
-        JwtToken jwtToken = signService.signIn(signInDTO);
-        return ResponseEntity.ok(jwtToken);
+    public BaseResponse<Object> signIn(@Validated @RequestBody SignInDTO signInDTO) {
+        Jwt jwt = signService.signIn(signInDTO);
+        return BaseResponse.success(jwt);
+    }
+
+    @PostMapping("/refresh")
+    public BaseResponse<Object> refresh(@Validated @RequestBody JwtRefreshToken jwtRefreshToken) {
+        Jwt jwt = signService.reissueToken(jwtRefreshToken);
+        return BaseResponse.success(jwt);
     }
 }

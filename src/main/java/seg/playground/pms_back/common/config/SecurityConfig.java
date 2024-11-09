@@ -14,6 +14,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import seg.playground.pms_back.common.config.support.CustomAuthenticationEntryPoint;
 import seg.playground.pms_back.common.config.support.JwtAuthenticationFilter;
 import seg.playground.pms_back.common.config.support.JwtTokenProvider;
 
@@ -47,6 +48,7 @@ public class SecurityConfig {
                         ).permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling((exceptionHandling) -> exceptionHandling.authenticationEntryPoint(new CustomAuthenticationEntryPoint()))
                 .build();
     }
 
