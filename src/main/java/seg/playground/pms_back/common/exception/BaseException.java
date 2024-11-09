@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 public class BaseException extends RuntimeException {
 
     private final Integer code;
+    private final String type = "RE";
 
     public BaseException(HttpStatus status, String message) {
         super(message);

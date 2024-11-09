@@ -27,7 +27,7 @@ public class SignController {
     }
 
     @PostMapping("/sign-in")
-    public ResponseEntity<Object> signIn(@RequestBody SignInDTO signInDTO) {
+    public ResponseEntity<Object> signIn(@Validated @RequestBody SignInDTO signInDTO) {
         JwtToken jwtToken = signService.signIn(signInDTO);
         return ResponseEntity.ok(jwtToken);
     }
