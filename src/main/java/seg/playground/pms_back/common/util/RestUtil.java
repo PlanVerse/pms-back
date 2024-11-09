@@ -14,7 +14,6 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -22,6 +21,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import seg.playground.pms_back.common.exception.BaseException;
+import seg.playground.pms_back.common.exception.code.StatusCode;
 
 @Slf4j
 @Component
@@ -92,11 +92,11 @@ public class RestUtil {
 
     public static <T> void responseCheck(ResponseEntity<T> response, int checkCode) throws Exception {
         if (response == null) {
-            throw new BaseException(HttpStatus.BAD_REQUEST, "응답없음");
+            throw new BaseException(StatusCode.BAD_REQUEST);
         }
 
         if (response.getStatusCode().value() != checkCode) {
-            throw new BaseException(HttpStatus.EXPECTATION_FAILED, "응답코드 : " + response.getStatusCode().value() + " - 기대 : " + checkCode);
+            throw new BaseException(StatusCode.NOT_EXPECT);
         }
     }
 

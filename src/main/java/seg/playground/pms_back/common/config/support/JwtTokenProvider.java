@@ -3,18 +3,15 @@ package seg.playground.pms_back.common.config.support;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.UnsupportedJwtException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -23,42 +20,59 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import seg.playground.pms_back.common.exception.BaseException;
-import seg.playground.pms_back.common.jwt.JwtToken;
+import seg.playground.pms_back.common.exception.code.StatusCode;
+import seg.playground.pms_back.common.jwt.Jwt;
+import seg.playground.pms_back.common.util.RedisUtil;
+import seg.playground.pms_back.user.service.CustomUserDetailsService;
 
-@Slf4j
 @Component
 public class JwtTokenProvider {
 
     private final SecretKey secretKey;
+    private final CustomUserDetailsService customUserDetailsService;
 
-    public JwtTokenProvider(@Value("${spring.jwt.secret}") String secret) {
+    public JwtTokenProvider(@Value("${spring.jwt.secret}") String secret, CustomUserDetailsService customUserDetailsService) {
         this.secretKey = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), Jwts.SIG.HS256.key().build().getAlgorithm());
+        this.customUserDetailsService = customUserDetailsService;
     }
 
     // Member 정보를 가지고 AccessToken, RefreshToken을 생성하는 메서드
-    public JwtToken generateToken(Authentication authentication) {
+    public Jwt generateToken(Authentication authentication) {
         // 권한 가져오기
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
-        long now = new Date().getTime() + 86400000;
+        long now = new Date().getTime();
+        // 30분
+        Date accessTokenExpr = new Date(now + 1800000);
+        // 대략 1주일 :: 정확한 수치는 소수점이므로 올림 적용
+        Date refreshTokenExpr = new Date(now + 604800017);
 
         // Access Token 생성
         String accessToken = Jwts.builder()
                 .subject(authentication.getName())
                 .claim("auth", authorities)
-                .expiration(new Date(now + 86400000))
+                .expiration(accessTokenExpr)
                 .signWith(secretKey)
                 .compact();
 
         // Refresh Token 생성
         String refreshToken = Jwts.builder()
-                .expiration(new Date(now + 86400000))
+                .subject(authentication.getName())
+                .expiration(refreshTokenExpr)
                 .signWith(secretKey)
                 .compact();
 
-        return JwtToken.builder()
+        // Refresh Token Redis에 저장 및 자동 파기
+        RedisUtil.setWithExpiry(
+                authentication.getName(),
+                refreshToken,
+                refreshTokenExpr.getTime(),
+                TimeUnit.MILLISECONDS
+        );
+
+        return Jwt.builder()
                 .grantType("Bearer")
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
@@ -68,10 +82,10 @@ public class JwtTokenProvider {
     // Jwt 토큰을 복호화하여 토큰에 들어있는 정보를 꺼내는 메서드
     public Authentication getAuthentication(String accessToken) {
         // Jwt 토큰 복호화
-        Claims claims = parseClaims(accessToken);
+        Claims claims = this.parseClaims(accessToken);
 
         if (claims.get("auth") == null) {
-            throw new BaseException(HttpStatus.TEMPORARY_REDIRECT, "권한 정보가 없습니다.");
+            throw new BaseException(StatusCode.NO_AUTHORITY_TMP_REDIRECT);
         }
 
         // 클레임에서 권한 정보 가져오기
@@ -85,24 +99,23 @@ public class JwtTokenProvider {
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
 
+    public Authentication getRefreshAuthentication(String refreshToken) {
+        try {
+            Claims claims = this.parseClaims(refreshToken);
+            UserDetails userDetails = customUserDetailsService.loadUserByUsername(claims.getSubject());
+            return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+        } catch (Exception e) {
+            throw new BaseException(StatusCode.INVALID_TOKEN);
+        }
+    }
+
     // 토큰 정보를 검증하는 메서드
     public boolean validateToken(String token) {
-        try {
-            Jwts.parser()
-                    .verifyWith(secretKey)
-                    .build()
-                    .parseSignedClaims(token);
-            return true;
-        } catch (SecurityException | MalformedJwtException e) {
-            log.info("Invalid JWT Token", e);
-        } catch (ExpiredJwtException e) {
-            log.info("Expired JWT Token", e);
-        } catch (UnsupportedJwtException e) {
-            log.info("Unsupported JWT Token", e);
-        } catch (IllegalArgumentException e) {
-            log.info("JWT claims string is empty.", e);
-        }
-        return false;
+        Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token);
+        return true;
     }
 
 

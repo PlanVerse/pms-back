@@ -15,6 +15,8 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import seg.playground.pms_back.common.exception.code.BaseResponse;
+import seg.playground.pms_back.common.exception.code.StatusCode;
 import seg.playground.pms_back.common.util.RestUtil;
 
 @Slf4j
@@ -23,6 +25,7 @@ public class BindExceptionHandler {
 
     @ExceptionHandler(BindException.class)
     public ResponseEntity<Object> handleBindException(BindException e) {
+
         List<BindResponse.ErrorField> errorFields = new ArrayList<>();
 
         for (Map.Entry<String, List<FieldError>> entry : e.getFieldErrors().stream().collect(Collectors.groupingBy(FieldError::getField)).entrySet()) {
@@ -30,9 +33,7 @@ public class BindExceptionHandler {
         }
         log.debug("errorFields \n{}\n", RestUtil.getJsonToString(errorFields));
 
-        return ResponseEntity
-                .badRequest()
-                .body(new BindResponse(HttpStatus.BAD_REQUEST.value(), "BE", errorFields));
+        return new ResponseEntity<>(BaseResponse.error(StatusCode.BAD_REQUEST, errorFields), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Getter
