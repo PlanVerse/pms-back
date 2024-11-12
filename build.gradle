@@ -37,6 +37,7 @@ dependencies {
     implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+    implementation 'com.github.mwiede:jsch:0.2.21'
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 

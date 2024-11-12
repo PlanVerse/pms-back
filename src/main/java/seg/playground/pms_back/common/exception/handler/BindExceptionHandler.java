@@ -33,7 +33,7 @@ public class BindExceptionHandler {
         }
         log.debug("errorFields \n{}\n", RestUtil.getJsonToString(errorFields));
 
-        return new ResponseEntity<>(BaseResponse.error(StatusCode.BAD_REQUEST, errorFields), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(BaseResponse.error(StatusCode.BAD_REQUEST, errorFields), HttpStatus.BAD_REQUEST);
     }
 
     @Getter

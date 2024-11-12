@@ -1,6 +1,7 @@
 package seg.playground.pms_back.common.config;
 
 import jakarta.persistence.EntityManagerFactory;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
 import javax.sql.DataSource;
@@ -10,20 +11,23 @@ import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateSettings;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
+import seg.playground.pms_back.common.config.support.RoutingDataSource;
+import seg.playground.pms_back.common.config.support.SshTunnelingInitializer;
 
 @Configuration
 @MapperScan(
@@ -43,37 +47,47 @@ public class DataConfig {
 
     private final JpaProperties jpaProperties;
     private final HibernateProperties hibernateProperties;
+    private final SshTunnelingInitializer sshTunnelingInitializer;
 
-    @Bean
-    @Primary
-    @ConfigurationProperties("spring.datasource")
-    public DataSourceProperties dataSourceProperties() {
-        return new DataSourceProperties();
+    @Bean("writeDataSource")
+    @ConfigurationProperties("spring.datasource.write")
+    public DataSource writeDataSource() {
+        return DataSourceBuilder.create().build();
+    }
+
+    @Bean("readDataSource")
+    @ConfigurationProperties("spring.datasource.read")
+    public DataSource readDataSource() {
+        return DataSourceBuilder.create().build();
+    }
+
+    @Bean("routingDataSource")
+    public DataSource routingDataSource(@Qualifier("writeDataSource") DataSource writeDataSource, @Qualifier("readDataSource") DataSource readDataSource) throws Exception {
+        sshTunnelingInitializer.connect();
+        return new RoutingDataSource(writeDataSource, Collections.singletonList(readDataSource));
     }
 
     @Primary
     @Bean("dataSource")
-    public DataSource dataSource() {
-        return dataSourceProperties()
-                .initializeDataSourceBuilder()
-                .build();
+    public DataSource dataSource(@Qualifier("routingDataSource") DataSource routingDataSource) {
+        return new LazyConnectionDataSourceProxy(routingDataSource);
     }
 
     @Primary
     @Bean("entityManagerFactory")
     public EntityManagerFactory entityManagerFactory(DataSource dataSource) {
-        LocalContainerEntityManagerFactoryBean lcemfb = new LocalContainerEntityManagerFactoryBean();
-        lcemfb.setDataSource(dataSource);
-        lcemfb.setPackagesToScan(
+        LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
+        localContainerEntityManagerFactoryBean.setDataSource(dataSource);
+        localContainerEntityManagerFactoryBean.setPackagesToScan(
                 "seg.playground.pms_back.*.domain",
                 "seg.playground.pms_back.*.*.domain"
         );
-        lcemfb.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+        localContainerEntityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         Map<String, Object> properties = hibernateProperties.determineHibernateProperties(jpaProperties.getProperties(), new HibernateSettings());
-        lcemfb.setJpaPropertyMap(properties);
-        lcemfb.afterPropertiesSet();
+        localContainerEntityManagerFactoryBean.setJpaPropertyMap(properties);
+        localContainerEntityManagerFactoryBean.afterPropertiesSet();
 
-        return lcemfb.getObject();
+        return localContainerEntityManagerFactoryBean.getObject();
     }
 
     @Primary

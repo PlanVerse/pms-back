@@ -1,9 +1,23 @@
 spring:
   datasource:
-    url: ENC(nM5ArAyzIM1F6kyEJd9X150T26NLNm/yxz55CXH6c+V1WWx92e6vnIlFppvB2Rd0qwu8g76CyU/TkwYzZbg0zBOPrqvpAIkRN/UjkW+fGTFXmrrIe06SI0f0H8p8dR6OlxlA861kUftWNSi9fLfOwA==)
-    username: ENC(HGbRQ3nZt9YsNUOAoBXNCSiOdyhxHJwdRtYYhC0Zl+S8IKGF6Pz+6ti2XMAo2gQn)
-    password: ENC(Ngg9rFEU1LX/Wm3sW3Nxj2unbJceRSfrFCsPfyfVil1ye3hCgTPLAPkd0eNsMqpy)
-    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    write:
+      jdbc-url: ENC(Rq0EzBzmTwpxl52eArGg1I06kYps/fGm8NMlVsbZsQkmwkrc33z17UtQRNVOjjV4TcUz9oo+NoWEEZLcuIyPlNagnKEwg1aQpHesJBDnzsE/cXu8ESHQQDedG3saQSD42wp5c9Vjx7CWJxw1nXwnvDMtB7XUbKZhiBLBCcLuvWB4nsYxQqxumpGatfJiRC0lxI4V/Fva017I6dp+sDfZDA==)
+      username: ENC(cESGfGLOhvtVWmRNBS6MFrzZDZs6ij8IJGOEEyE7PS+MpfR48r6KLz+/LDmoeJD7)
+      password: ENC(qceaA1Occl4viNtb4B2nRwGVWBrEs2V6KsoRToZDitYYGqUe6PjUqClH17o8cHcP)
+      driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+      minimum-idle: 10
+      maximum-pool-size: 20
+      connection-test-query: SELECT 1
+      pool-name: WRITE-POOL
+    read:
+      jdbc-url: ENC(IFWB+/RKTUtvOp5/on9IC/czYCJ09gvjrK8AQszHScl/SlACSCWZ5T+kJmtUNZOftfuo3tD7hnL2UQso8iuCGbTTF+k/UWHNxAK+sk4edZYIVLx5SsLAuGFsAxh3A6PGAW524qmzuAFM+3PIZs3s5lnB8a3vHR+3po+ekSTo84AKznrayNYDb6EEGCWmMnUlI5xrNZ1kgN6wT09xhdOzWA==)
+      username: ENC(IRv0+e8pIItGa/yPP5i3sYwLyWJcKsc42Z9Fcavmp6G0W9D7s9ajK6tiyqmNjpI7)
+      password: ENC(HAyQrhgM8T+aNbUkiFfi2GnX7AoOli6opjXcl8dokcc8Bpy7CsLipf4IDJy5sllu)
+      driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+      minimum-idle: 5
+      maximum-pool-size: 10
+      connection-test-query: SELECT 1
+      pool-name: READ-POOL
   jpa:
     hibernate:
       ddl-auto: create
@@ -19,8 +33,14 @@ spring:
           order_updates: true
   data:
     redis:
-      url: localhost
-      port: 6379
+      url: ENC(A32vQNlFkXCsSZaiTUTRWgpr2kCQcbUJ5ScJD/GmkonzYSNgTysyZD5sz8zhO8VM)
+      port: ENC(KM2nbreUrhkFtIbCSHBrf6Ij5JieuGBKXFA/H67XP2IJyWoa7ZJ4Fk7PGiMO+TR5)
+
+ssh:
+  host: ENC(c/bRhvL9sqqfS7Ypl2Q6GdlUZRtdw2auvMVoH0k2XYQCyYzqRnKYF1LlJcT/NfyyhSxntzxXX5MkRgJgc101Ng==)
+  port: ENC(jMtKHIu78orv6Z8g26vgrXkjA2JjbG+rpQEtGIUNwB0PO5cPtP+qJOIg60lk7aKk)
+  username: ENC(WHi+HSJB3X2zqrpI0O1ORIS5gdYU5vqb/Hej2VM4Op8gcR5Iy26DAi1W8XMH7A3e)
+  password: ENC(XeFROCzMQAz8z7cpBiJ1aV6zJIJeZwdxtr1kc8uh+nIC1Za33N7mK+AkKDYRSMwB)
 
 logging:
   level:

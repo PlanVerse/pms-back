@@ -4,6 +4,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -22,8 +23,8 @@ import seg.playground.pms_back.user.repository.UserRepository;
 
 @Slf4j
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class SignService {
 
     private final UserRepository userRepository;
@@ -34,7 +35,7 @@ public class SignService {
     @Transactional
     public void signUp(SignUpDTO signUpDto) {
         if (userRepository.existsByEmail(signUpDto.getEmail())) {
-            throw new BaseException(StatusCode.ALREADY_USE_EMAIL);
+            throw new BaseException(StatusCode.ALREADY_USE_EMAIL, HttpStatus.PERMANENT_REDIRECT);
         }
 
         String encodedPassword = passwordEncoder.encode(signUpDto.getPassword());
@@ -55,9 +56,9 @@ public class SignService {
             // 3. 인증 정보를 기반으로 JWT 토큰 생성
             return jwtTokenProvider.generateToken(authentication);
         } catch (IllegalArgumentException iae) {
-            throw new BaseException(StatusCode.INVALID_TOKEN);
+            throw new BaseException(StatusCode.INVALID_TOKEN, HttpStatus.UNAUTHORIZED);
         } catch (Exception e) {
-            throw new BaseException(StatusCode.UNAUTHORIZED);
+            throw new BaseException(StatusCode.UNAUTHORIZED, HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -73,7 +74,7 @@ public class SignService {
         // Redis에서 저장된 Refresh Token 값을 가져옴
         String redisRefreshToken = RedisUtil.get(authentication.getName());
         if (StringUtils.isBlank(redisRefreshToken) || !redisRefreshToken.equals(refreshToken)) {
-            throw new BaseException(StatusCode.EXPIRED_TOKEN);
+            throw new BaseException(StatusCode.EXPIRED_TOKEN, HttpStatus.UNAUTHORIZED);
         }
 
         // 토큰 재발행
