@@ -1,4 +1,4 @@
-package seg.playground.pms_back.user.domain;
+package seg.playground.pms_back.user.user.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,7 +35,7 @@ public class UserDTO {
         return UserEntity.builder()
                 .id(id)
                 .username(username)
-                .password(nickname)
+                .password(password)
                 .email(email)
                 .nickname(nickname)
                 .build();

@@ -17,7 +17,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 public class BaseEntity {
 
-    @ColumnDefault("'Y'")
+    @ColumnDefault("'N'")
     @Column(nullable = false)
     private String deleteYn;
 

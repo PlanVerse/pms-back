@@ -24,7 +24,7 @@ import seg.playground.pms_back.common.exception.BaseException;
 import seg.playground.pms_back.common.exception.code.StatusCode;
 import seg.playground.pms_back.common.jwt.Jwt;
 import seg.playground.pms_back.common.util.RedisUtil;
-import seg.playground.pms_back.user.service.CustomUserDetailsService;
+import seg.playground.pms_back.user.user.service.CustomUserDetailsService;
 
 @Component
 public class JwtTokenProvider {

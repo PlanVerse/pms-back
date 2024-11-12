@@ -1,3 +1,6 @@
+server:
+  port: ENC(bH0UGgoiTTXNZ0OXnnhrqpX0//Z9SyjPJGOR8T76uzgtWUoSZ8/rZzSdseW+rlTP)
+
 spring:
   datasource:
     write:
@@ -21,9 +24,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
+    generate-ddl: true
     show-sql: true
     open-in-view: false
-    generate-ddl: false
     properties:
       hibernate:
         format_sql: true
@@ -45,4 +48,4 @@ ssh:
 logging:
   level:
     org:
-      springframework: debug
+      springframework: info
