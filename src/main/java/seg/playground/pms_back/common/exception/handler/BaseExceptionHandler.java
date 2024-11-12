@@ -1,6 +1,7 @@
 package seg.playground.pms_back.common.exception.handler;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,6 +21,13 @@ public class BaseExceptionHandler {
 
     @ExceptionHandler(BaseException.class)
     public ResponseEntity<BaseResponse<Void>> handleBaseException(BaseException be) {
-        return new ResponseEntity<>(BaseResponse.error(be.getStatus()), HttpStatus.BAD_REQUEST);
+        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+        if (ObjectUtils.isNotEmpty(be.getHttpStatus())) {
+            try {
+                httpStatus = HttpStatus.valueOf(be.getHttpStatus());
+            } catch (IllegalArgumentException ignore) {
+            }
+        }
+        return new ResponseEntity<>(BaseResponse.error(be.getStatus()), httpStatus);
     }
 }

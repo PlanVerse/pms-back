@@ -2,7 +2,7 @@
 ![Gradle](https://img.shields.io/badge/v8.10.2-02303A?logo=gradle&label=Gradle)  
 ![Postgresql](https://img.shields.io/badge/v13-4169E1?logo=postgresql&label=PostgreSQL)
 
-# PMS
+# PMS - PlanVerse
 
 ---
 - JWT 이용

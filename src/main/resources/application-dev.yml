@@ -1,9 +1,23 @@
 spring:
   datasource:
-    url: ENC(wrbzQ7XR5wS+nmfNsx1wRUfVNjNpuVx6NTSHAtQmhdLI4pTgWJOhv3UksULuuheJPJn/DUx/gHdb5LNk297phqjm5k0k1fZud2HJxO7zbzB+EZexdKy8wWfgubKq9CLyrMd7WT33xOh3VTCnT1l0RSw2lzZS0Sr31+S36jQAYhW+pIIpgifhmqhLDb26PLbCUK1aXG0yjac6sWAJJGmP64L+0nQ0+S6FVcN/6VLZG3DykwGewUow/Yk41BmGuCHkOuaD0QaXCL6+7HcDiCKPbA==)
-    username: ENC(FDExmQTUr41sQnblCeN+qsTXMQ7Dq1JXAn75Mv4d29T1S1UN5SExsBlQzLa7en9YlP4qCSkcxZ0qPYdiZTHpPQ==)
-    password: ENC(IKd25uNvbfX++fp4RwILPRbE1vekeZSn2d/qwlfhduOdOe/HtGZMWmBTSBYd4qdv)
-    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    write:
+      jdbc-url: ENC(eqk3kYCljrE7LVnfEv76jzdeVRpR82NGyLWeJi6Xl41+R5RxecOGNReOXkRjPzvY1jeK7rDOfxOV0hQtQbX3gss4EyA5vZlBuQqkez+EFzKnCSlyhfTOUnngc+q5Z0H7DMJIflpiCDqlRHnsAkGjqjrD95PyiuJbXpicXSogijysZOOo2vBv0tbPg8pL1eBQM9DZMc6N2p24QMkOmZoURA==)
+      username: ENC(RxdKFe+MV1q7Buu4ClZKcCc8FyVu8Aw2ClYmfwscz70ceKyVquqrGFWkzQtGXcPb)
+      password: ENC(d4TNojhWqLFmqFIIElLpJWwqoz6Da+rIlf6OspTAR+Sp8dBT4P8pmLQnQJGN15Zq)
+      driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+      minimum-idle: 10
+      maximum-pool-size: 20
+      connection-test-query: SELECT 1
+      pool-name: WRITE-POOL
+    read:
+      jdbc-url: ENC(EexmgGZ+J7MOIEDIY+GnWnDcHMfmVSIDPlX2KHrvza/D/rEDZei36M/t070oNAOQJ2a1NLq3J7PFpJ5wIPYMfpZEwB+Wn7dg1RUrennmNtUyXYHF1a1Oq1WXTYL2RnWmqfphgqesRQjQzVBVHUQ2pLC801BbVR0tsYI6Z5CbwvkUsQXiv1h6wHj9MaI7sq9jAjpHEjTMWu5t2uX+Bg1U4A==)
+      username: ENC(Z9ofAh0YzvAUVicnhQBaKlF7pw0YP2hKBNJ8s08xSbpH/5sWzE1uBEBg8/75rQTu)
+      password: ENC(QKSObi74zJvTaBsh1DAPuQh0S7Ifv61Yp8/4cK5aZBEN1cPN2KBy60+9/pYh2N87)
+      driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+      minimum-idle: 5
+      maximum-pool-size: 10
+      connection-test-query: SELECT 1
+      pool-name: READ-POOL
   jpa:
     hibernate:
       ddl-auto: none
@@ -19,10 +33,16 @@ spring:
           order_updates: true
   data:
     redis:
-      url: localhost
-      port: 6379
+      url: ENC(PmXXIT23dTLLkq9S3GGB76/tjlCenYLBNbHbgY037CUxTmAVTeeTsk0U4oKKear+)
+      port: ENC(oQ00lSPsq43XW9Dtts+X2vENU1wHaPTUSewuGfB5lRp0M6+EhVBeBRDzIT6Lcoyt)
+
+ssh:
+  host: ENC(UTIbvzKfU89OzW59hBS4P01M4P0tAb15pfKLMdQPXUkBnkxiCBuaE9KBE72cElcrD0p79HoKwaCvcrXNdG7+nQ==)
+  port: ENC(GK8cCaW8PqgpNYDIOs8hAK7ca2kh20fEoL1hm6uXa9sMnLwC3xHEd7Ab/PfwhpN7)
+  username: ENC(bQ9SBU/x+ANJQ3lRoM/UrCwjvQeT1HOFIVESlE5Kr7dNAqxKKXmopD1r6CXHfMmU)
+  password: ENC(SK3lRlAlOJLEngRKv1rSD18hiQZKc9JIY+wYIrUQLBO0h/owa2yx/yp1H/KRjcaU)
 
 logging:
   level:
     org:
-      springframework: debug
+      springframework: info

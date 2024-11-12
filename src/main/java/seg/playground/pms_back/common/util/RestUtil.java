@@ -14,6 +14,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -92,11 +93,11 @@ public class RestUtil {
 
     public static <T> void responseCheck(ResponseEntity<T> response, int checkCode) throws Exception {
         if (response == null) {
-            throw new BaseException(StatusCode.BAD_REQUEST);
+            throw new BaseException(StatusCode.BAD_REQUEST, HttpStatus.BAD_REQUEST);
         }
 
         if (response.getStatusCode().value() != checkCode) {
-            throw new BaseException(StatusCode.NOT_EXPECT);
+            throw new BaseException(StatusCode.NOT_EXPECT, HttpStatus.NOT_ACCEPTABLE);
         }
     }
 

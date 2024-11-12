@@ -1,9 +1,23 @@
 spring:
   datasource:
-    url: ENC(Kjdkd6RPM2TZt78Fq77teiqQM9Q68MWm4dCIEV6iV9qlMVYUn8PfVMlmBCa2id+DH/cXhBjv/glUmV4yjdjuVDIlxLS68/6J5GARFxnb2wlj9klxiW0NR1xYB5V11soZg22TLJIAKnYQH87ZlX5z7utmf0WNfS8yPz0MeDPAjMBJmt3oXsr5Vt/xY8JxW6NJUNhTqBfnpwM9nXI5YQIBouoyTVKqrKGSw3DXuIurh6O4dw2u55DGzTcF2Fq11MP+M5eFSpVktap69TPAX8QrSg==)
-    username: ENC(I6rbppon/98vDT5X+BceSGrj3aO2lTweu9cOYhYJLo69cLtEAwfqLU9FBEujyjdH5M25UaoIcF5pXlXGsbzNHA==)
-    password: ENC(zXzYl93ALXG01kh9htoGbxURM+z+JL3IbtPRlmcxGfBhEFc5gqPE5dfeXyyGxbbo)
-    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    write:
+      jdbc-url: ENC(H4JXLeUS+jNfKXHBLvlsw5KVlSY1Poz0tGtq0Ii/+OVln7yyfPRa79ai11yhwsrAiZ51ZlojNwETbmABzTjN6tQrPghmN+LaHJUBAc/+WJtA3MFIZTFMQpIITUEgUp6B8PPDugjjJf9QH06JTwURqf3VM5M1bSr5Sq2Mzj4nbbKgkLuVlxW/9Q2OK0RZrV22527CWhUOyDrqqnlRhf+jIA==)
+      username: ENC(KH6jhACNApt/nIVwR8DEoQM5iEdApelE9vpQ0pX69wPHjuxu7JwnwsseRoELLla7)
+      password: ENC(KMnFQao+KzyYot3mzJnj+jMTdyk2pCuv5uEa+DM25X8hLXh/7bLeWqrumgO6FUKI)
+      driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+      minimum-idle: 10
+      maximum-pool-size: 20
+      connection-test-query: SELECT 1
+      pool-name: WRITE-POOL
+    read:
+      jdbc-url: ENC(ZATl3p/yPNydto0dbfFUZJHfz1KipLKXUKzw2yS1Oxw09YbSaYnPo95RyGN8IfWKe+asxLLEskeiybCRNt7hdviRba/3U/N6KfPrQBxbDmcMHX9Q11euRQ83OBr/ZAwF5CMH8PLdiCBvi/fZpm0yKnXqaaHV0gDOoewGLfZJev4pPmgx/ioGd70yc41ebVjzm9P1iX06JUO3267GDAfp2A==)
+      username: ENC(n5goxYaoe2R0fLurO8LeKPmN6v+1h756mdBXsMPSQoKs49UoqcDdvIbo2jdq7U6Q)
+      password: ENC(An8jrexqXyMfPL2WcJj+UbrySrytBoxASn1/PGAa+Bo2KHHO67/DpOMfSzcY54s/)
+      driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+      minimum-idle: 5
+      maximum-pool-size: 10
+      connection-test-query: SELECT 1
+      pool-name: READ-POOL
   jpa:
     hibernate:
       ddl-auto: none
@@ -19,8 +33,14 @@ spring:
           order_updates: true
   data:
     redis:
-      url: localhost
-      port: 6379
+      url: ENC(BXeyt3/WJ3ZY+bO66rYyf2P/AepfcRHPZjsBpm4rKXJssRzw3JvpbaR5+zP2Qt7R)
+      port: ENC(31Hq53vJIBB4V57C083Fl/HU0Y8L0Imz77CVokdx+Okjigf5Pxuk6Rx1UO8myWzH)
+
+ssh:
+  host: ENC(nJvah8aI+2vLTOv4+moBNVVVeHhW9Do1KGZqv4BetO2AEglUStkVPaFJ8g2JWRA7zRgKfDyBXGcpXucHVBM7yQ==)
+  port: ENC(s2mLqD8o8CosMQj8IMY3ZixXBbLU1NY0vXZHQt7eTFkKhuAeiKkr19hPxIYMCHQR)
+  username: ENC(2y3FR4/U+Gb2DoLuUYkot8Z/25q7Ai/Wbx5TBsE55TQHs3kaMZ2i/DkrGTqWBP21)
+  password: ENC(Abbp02z6UQDyRoUaFn0v2egFOi/KHHypzzH/hItE8q8+sfUqNDOCbKa50AwsQR0X)
 
 logging:
   level:

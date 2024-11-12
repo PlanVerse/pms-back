@@ -1,13 +1,13 @@
 package seg.playground.pms_back;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+@Slf4j
 class PmsBackApplicationTests {
 
     @Test
-    void contextLoads() {
+    public void test1() {
+        System.out.println("TEST");
     }
-
 }

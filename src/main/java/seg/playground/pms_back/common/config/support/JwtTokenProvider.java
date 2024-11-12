@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -85,7 +86,7 @@ public class JwtTokenProvider {
         Claims claims = this.parseClaims(accessToken);
 
         if (claims.get("auth") == null) {
-            throw new BaseException(StatusCode.NO_AUTHORITY_TMP_REDIRECT);
+            throw new BaseException(StatusCode.NO_AUTHORITY_TMP_REDIRECT, HttpStatus.TEMPORARY_REDIRECT);
         }
 
         // 클레임에서 권한 정보 가져오기
@@ -105,7 +106,7 @@ public class JwtTokenProvider {
             UserDetails userDetails = customUserDetailsService.loadUserByUsername(claims.getSubject());
             return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
         } catch (Exception e) {
-            throw new BaseException(StatusCode.INVALID_TOKEN);
+            throw new BaseException(StatusCode.INVALID_TOKEN, HttpStatus.UNAUTHORIZED);
         }
     }
 
