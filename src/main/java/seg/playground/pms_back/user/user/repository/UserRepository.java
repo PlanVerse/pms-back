@@ -1,8 +1,8 @@
-package seg.playground.pms_back.user.repository;
+package seg.playground.pms_back.user.user.repository;
 
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
-import seg.playground.pms_back.user.domain.UserEntity;
+import seg.playground.pms_back.user.user.domain.UserEntity;
 
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 

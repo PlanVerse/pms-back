@@ -37,4 +37,11 @@ public class SignController {
         Jwt jwt = signService.reissueToken(jwtRefreshToken);
         return BaseResponse.success(jwt);
     }
+
+    // TODO 기능 구현
+    @PostMapping("/sign-out")
+    public BaseResponse<Object> signOut() {
+        signService.signOut();
+        return BaseResponse.success();
+    }
 }

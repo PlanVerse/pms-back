@@ -17,9 +17,10 @@ import seg.playground.pms_back.common.exception.code.StatusCode;
 import seg.playground.pms_back.common.jwt.Jwt;
 import seg.playground.pms_back.common.jwt.JwtRefreshToken;
 import seg.playground.pms_back.common.util.RedisUtil;
+import seg.playground.pms_back.user.auth.constant.Role;
 import seg.playground.pms_back.user.auth.domain.SignInDTO;
 import seg.playground.pms_back.user.auth.domain.SignUpDTO;
-import seg.playground.pms_back.user.repository.UserRepository;
+import seg.playground.pms_back.user.user.repository.UserRepository;
 
 @Slf4j
 @Service
@@ -39,8 +40,7 @@ public class SignService {
         }
 
         String encodedPassword = passwordEncoder.encode(signUpDto.getPassword());
-        List<String> roles = List.of("USER");
-        userRepository.save(signUpDto.toEntity(encodedPassword, roles));
+        userRepository.save(signUpDto.toEntity(encodedPassword, Role.USER));
     }
 
     public Jwt signIn(SignInDTO signInDTO) {
@@ -79,5 +79,8 @@ public class SignService {
 
         // 토큰 재발행
         return jwtTokenProvider.generateToken(authentication);
+    }
+
+    public void signOut() {
     }
 }

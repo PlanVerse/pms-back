@@ -1,3 +1,6 @@
+server:
+  port: ENC(tKanUW+Ay8tYea3ai1n51zgacG9BLeRBuBUaniM/wlbUHjgJ5X9XB/YHjpxpUs0o)
+
 spring:
   datasource:
     write:

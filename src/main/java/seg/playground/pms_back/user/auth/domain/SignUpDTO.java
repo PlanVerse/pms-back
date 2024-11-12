@@ -9,7 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import seg.playground.pms_back.user.domain.UserEntity;
+import seg.playground.pms_back.user.auth.constant.Role;
+import seg.playground.pms_back.user.user.domain.UserEntity;
 
 @Getter
 @Setter
@@ -26,16 +27,16 @@ public class SignUpDTO {
     @NotBlank
     @Size(min = 3, max = 10)
     private String nickname;
-    private List<String> roles;
+    private String role;
 
-    public UserEntity toEntity(String encodedPassword, List<String> roles) {
+    public UserEntity toEntity(String encodedPassword, Role role) {
 
         return UserEntity.builder()
                 .username(username)
                 .password(encodedPassword)
                 .email(email)
                 .nickname(nickname)
-                .roles(roles)
+                .role(role.name())
                 .build();
     }
 }

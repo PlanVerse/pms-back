@@ -1,4 +1,4 @@
-package seg.playground.pms_back.user.service;
+package seg.playground.pms_back.user.user.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
@@ -6,8 +6,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import seg.playground.pms_back.user.domain.UserEntity;
-import seg.playground.pms_back.user.repository.UserRepository;
+import seg.playground.pms_back.user.user.domain.UserEntity;
+import seg.playground.pms_back.user.user.repository.UserRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +27,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         return User.builder()
                 .username(userEntity.getEmail())
                 .password(userEntity.getPassword())
-                .roles(userEntity.getRoles().toArray(new String[0]))
+                .roles(userEntity.getRole())
                 .build();
     }
 }

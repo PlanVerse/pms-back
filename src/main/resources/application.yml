@@ -28,7 +28,6 @@ server:
         http-only: true
         max-age: 600m
   shutdown: graceful
-  port: 50030
   error:
     whitelabel:
       enabled: false
