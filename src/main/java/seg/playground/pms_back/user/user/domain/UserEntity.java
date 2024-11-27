@@ -1,34 +1,28 @@
 package seg.playground.pms_back.user.user.domain;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.validator.constraints.UniqueElements;
 import seg.playground.pms_back.common.domain.BaseEntity;
-import seg.playground.pms_back.team.domain.TeamEntity;
 import seg.playground.pms_back.team.domain.TeamMemberEntity;
 
 @Entity
 @Getter
-@Builder
+@SuperBuilder
 @DynamicInsert
 @AllArgsConstructor
 @Table(name = "user_info",
@@ -39,7 +33,10 @@ import seg.playground.pms_back.team.domain.TeamMemberEntity;
                 )
         })
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserEntity extends BaseEntity {
+public class UserEntity extends BaseEntity implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = -7811188394631428199L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -4,11 +4,11 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import seg.playground.pms_back.common.constant.CommConstant;
 import seg.playground.pms_back.user.auth.constant.Role;
 import seg.playground.pms_back.user.user.domain.UserEntity;
 
@@ -37,6 +37,14 @@ public class SignUpDTO {
                 .email(email)
                 .nickname(nickname)
                 .role(role.name())
+                .build();
+    }
+
+    public UserEntity toEntityRegister(String encodedPassword, Role role) {
+        this.toEntity(encodedPassword, role);
+        return UserEntity.builder()
+                .createdBy(CommConstant.SYSTEM_ID)
+                .updatedBy(CommConstant.SYSTEM_ID)
                 .build();
     }
 }

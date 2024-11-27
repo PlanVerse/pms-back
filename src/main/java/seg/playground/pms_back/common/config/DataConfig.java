@@ -11,6 +11,7 @@ import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateSettings;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
@@ -27,7 +28,6 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import seg.playground.pms_back.common.config.support.RoutingDataSource;
-import seg.playground.pms_back.common.config.support.SshTunnelingInitializer;
 
 @Configuration
 @MapperScan(
@@ -47,7 +47,9 @@ public class DataConfig {
 
     private final JpaProperties jpaProperties;
     private final HibernateProperties hibernateProperties;
-    private final SshTunnelingInitializer sshTunnelingInitializer;
+
+    @Value("${spring.profiles.active}")
+    private String activeProfile;
 
     @Bean("writeDataSource")
     @ConfigurationProperties("spring.datasource.write")
@@ -63,7 +65,6 @@ public class DataConfig {
 
     @Bean("routingDataSource")
     public DataSource routingDataSource(@Qualifier("writeDataSource") DataSource writeDataSource, @Qualifier("readDataSource") DataSource readDataSource) throws Exception {
-        sshTunnelingInitializer.connect();
         return new RoutingDataSource(writeDataSource, Collections.singletonList(readDataSource));
     }
 
