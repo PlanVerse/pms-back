@@ -9,6 +9,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 import lombok.AccessLevel;
@@ -32,7 +34,10 @@ import seg.playground.pms_back.common.domain.BaseEntity;
                 )
         })
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class TeamEntity extends BaseEntity {
+public class TeamEntity extends BaseEntity implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 855094253272731174L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

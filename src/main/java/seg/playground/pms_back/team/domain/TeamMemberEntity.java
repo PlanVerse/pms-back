@@ -16,6 +16,8 @@ import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.SecondaryTable;
 import jakarta.persistence.SecondaryTables;
 import jakarta.persistence.Table;
+import java.io.Serial;
+import java.io.Serializable;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,7 +45,10 @@ import seg.playground.pms_back.user.user.domain.UserEntity;
                 foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT)
         )
 })
-public class TeamMemberEntity extends BaseEntity {
+public class TeamMemberEntity extends BaseEntity implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = -363235389464583980L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

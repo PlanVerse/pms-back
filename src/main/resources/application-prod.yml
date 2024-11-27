@@ -39,12 +39,6 @@ spring:
       url: ENC(BXeyt3/WJ3ZY+bO66rYyf2P/AepfcRHPZjsBpm4rKXJssRzw3JvpbaR5+zP2Qt7R)
       port: ENC(31Hq53vJIBB4V57C083Fl/HU0Y8L0Imz77CVokdx+Okjigf5Pxuk6Rx1UO8myWzH)
 
-ssh:
-  host: ENC(nJvah8aI+2vLTOv4+moBNVVVeHhW9Do1KGZqv4BetO2AEglUStkVPaFJ8g2JWRA7zRgKfDyBXGcpXucHVBM7yQ==)
-  port: ENC(s2mLqD8o8CosMQj8IMY3ZixXBbLU1NY0vXZHQt7eTFkKhuAeiKkr19hPxIYMCHQR)
-  username: ENC(2y3FR4/U+Gb2DoLuUYkot8Z/25q7Ai/Wbx5TBsE55TQHs3kaMZ2i/DkrGTqWBP21)
-  password: ENC(Abbp02z6UQDyRoUaFn0v2egFOi/KHHypzzH/hItE8q8+sfUqNDOCbKa50AwsQR0X)
-
 logging:
   level:
     org:

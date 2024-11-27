@@ -1,6 +1,5 @@
 package seg.playground.pms_back.user.auth.service;
 
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -40,7 +39,7 @@ public class SignService {
         }
 
         String encodedPassword = passwordEncoder.encode(signUpDto.getPassword());
-        userRepository.save(signUpDto.toEntity(encodedPassword, Role.USER));
+        userRepository.save(signUpDto.toEntityRegister(encodedPassword, Role.USER));
     }
 
     public Jwt signIn(SignInDTO signInDTO) {
