@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight([%-5level]) [%relative] [%thread] %cyan(%logger{100}) %yellow(%method:%line) - %msg%n" />
+
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>${LOG_PATTERN}</Pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+	</appender>
+
+	<springProfile name="local">
+		<root level="DEBUG">
+			<appender-ref ref="CONSOLE" />
+		</root>
+		<logger name="jdbc.sqltiming" level="DEBUG" />
+		<logger name="jdbc.resultsettable" level="DEBUG" />
+	</springProfile>
+
+	<springProfile name="prod">
+		<root level="INFO">
+			<appender-ref ref="CONSOLE" />
+		</root>
+		<logger name="jdbc.sqltiming" level="OFF" />
+		<logger name="jdbc.resultsettable" level="OFF" />
+	</springProfile>
+
+	<logger name="jdbc" level="OFF" />
+	<logger name="jdbc.sqlonly" level="OFF" />
+	<logger name="jdbc.audit" level="OFF" />
+	<logger name="jdbc.resultset" level="OFF" />
+	<logger name="jdbc.connection" level="OFF" />
+	<logger name="org.hibernate.loader" level="OFF" />
+	<logger name="org.apache.http.wire" level="ERROR" />
+	<logger name="org.hibernate.hql.internal" level="OFF" />
+	<logger name="org.hibernate.engine.internal" level="OFF" />
+	<logger name="org.hibernate.engine.loading.internal" level="OFF" />
+	<logger name="org.hibernate.internal.util.EntityPrinter" level="OFF" />
+
+</configuration>
