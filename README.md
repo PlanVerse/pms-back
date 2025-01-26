@@ -1,3 +1,6 @@
+# [gitlab](https://gitlab.com/planverse)을 이용하는 방향으로 결정
+
+
 ![Springboot](https://shields.io/badge/v3.3.5-6DB33F?logo=springboot&label=Spring%20Boot)  
 ![Gradle](https://img.shields.io/badge/v8.10.2-02303A?logo=gradle&label=Gradle)  
 ![Postgresql](https://img.shields.io/badge/v13-4169E1?logo=postgresql&label=PostgreSQL)
